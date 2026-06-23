@@ -717,7 +717,7 @@ function renderModSelection() {
             <div class="mod-section-header">
                 <div>
                     <div class="mod-section-title">🔍 Browse All Mods on Modrinth</div>
-                    <div class="mod-section-subtitle">Search the entire Modrinth catalog — <span id="apiSearchCount">Loading mod count...</span></div>
+                    <div class="mod-section-subtitle">Search the entire Modrinth catalog — <span id="apiSearchCount">${formatModrinthCount()} mods available</span></div>
                 </div>
             </div>
             <div style="display:flex;gap:8px;margin-bottom:12px;">
