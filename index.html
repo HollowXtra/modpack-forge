@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modpack Forge — Minecraft Modpack Maker & Curator</title>
+    <meta name="description" content="Forge perfect Minecraft modpacks in seconds. Browse 152 curated mods across 12 categories or search 70,000+ mods live on Modrinth. Performance mods included by default.">
+    <meta name="keywords" content="minecraft, modpack, mod, modrinth, curseforge, fabric, forge, neoforge, performance, sodium, optimization, horror, fantasy, skyblock, builder">
+    <meta name="author" content="Modpack Forge">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hollowxtra.github.io/modpack-forge/">
+
+    <!-- Open Graph / Social Preview -->
+    <meta property="og:title" content="Modpack Forge — Minecraft Modpack Maker">
+    <meta property="og:description" content="Forge perfect Minecraft modpacks instantly. 152 curated mods + 70,000+ live from Modrinth. Performance mods included!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hollowxtra.github.io/modpack-forge/">
+    <meta property="og:image" content="https://hollowxtra.github.io/modpack-forge/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Modpack Forge — Minecraft Modpack Maker">
+    <meta name="twitter:description" content="Forge perfect Minecraft modpacks instantly. 152 curated mods + 70,000+ live from Modrinth.">
+    <meta name="twitter:image" content="https://hollowxtra.github.io/modpack-forge/og-image.png">
+
+    <!-- PWA / Manifest -->
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#0a0e14">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://api.modrinth.com">
+    <link rel="dns-prefetch" href="https://api.modrinth.com">
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { margin: 0; background: #0a0e14; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+</head>
+<body>
+    <!-- SPLASH OVERLAY -->
+    <div id="splashOverlay" class="splash-overlay">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <div class="splash-logo-icon">🔨</div>
+                <div style="text-align:left;">
+                    <h1 style="margin:0;font-size:44px;">Modpack Forge</h1>
+                    <span class="splash-tagline">Curated Mod Recommendations</span>
+                </div>
+            </div>
+            <div class="splash-loader">
+                <div class="splash-bar-track">
+                    <div class="splash-bar-fill" id="splashBar"></div>
+                </div>
+                <p id="splashText">Indexing mod database...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app" class="app hidden">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">🔨</div>
+                <div class="brand-text">
+                    <span class="brand-name">Modpack Forge</span>
+                    <span class="brand-version">v2.0.0</span>
+                </div>
+            </div>
+            <nav class="nav-list">
+                <button class="nav-item active" data-page="home">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item" data-page="create">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    <span>New Modpack</span>
+                </button>
+                <button class="nav-item" data-page="modpacks">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l10 5 6-3-9-5-7 3z"/><path d="M4 12l10 5 6-3-9-5-7 3z"/><path d="M4 7l10 5 6-3-9-5-7 3z"/></svg>
+                    <span>My Modpacks</span>
+                </button>
+                <button class="nav-item" data-page="settings">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </button>
+                <div style="flex:1;"></div>
+                <button class="nav-item danger" onclick="clearAllModpacks()" style="margin-top:auto;">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Clear All</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-status">
+                    <span class="status-dot"></span>
+                    <span>Database: <span id="sidebarModCount">0</span> mods indexed</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="mainContent">
+
+            <!-- ========== HOME ========== -->
+            <section class="page active" id="pageHome">
+                <header class="page-header">
+                    <div>
+                        <h1 class="page-title">Forge Your Modpack</h1>
+                        <p class="page-subtitle">Pick a theme, select mods, and generate a curated modpack with optimization mods included</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('create')">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                            New Modpack
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Hero -->
+                <div class="hero-banner">
+                    <div class="hero-bg"></div>
+                    <div class="hero-content">
+                        <span class="hero-badge">⚡ Always Optimized</span>
+                        <h2 class="hero-title">Performance by Default</h2>
+                        <p class="hero-desc">Every modpack automatically includes the best optimization mods — Sodium, Lithium, Starlight, and more. So you get gorgeous gameplay without the lag.</p>
+                        <div class="hero-meta">
+                            <span class="hero-tag hero-tag-green">Sodium ⚡</span>
+                            <span class="hero-tag hero-tag-green">Lithium 🔋</span>
+                            <span class="hero-tag hero-tag-green">Starlight ⭐</span>
+                            <span class="hero-tag hero-tag-green">ModernFix 🔧</span>
+                            <span class="hero-tag hero-tag-green">+16 more</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statMods">0</div>
+                        <div class="stat-label">Curated Mods</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statCategories">0</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statOptimization">0</div>
+                        <div class="stat-label">Optimization Mods</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statPacks">0</div>
+                        <div class="stat-label">Your Modpacks</div>
+                    </div>
+                </div>
+
+                <!-- Category Grid -->
+                <div class="section-header">
+                    <h2>🎯 Choose a Category</h2>
+                    <span class="section-count">Pick your theme</span>
+                </div>
+                <div class="category-grid-home" id="homeCategoryGrid"></div>
+
+                <!-- Featured -->
+                <div class="section-header">
+                    <h2>📦 Your Modpacks</h2>
+                    <span class="section-count" id="featuredCount">0</span>
+                </div>
+                <div class="modpack-list" id="featuredGrid"></div>
+            </section>
+
+            <!-- ========== CREATE (WIZARD) ========== -->
+            <section class="page" id="pageCreate">
+                <header class="page-header">
+                    <div>
+                        <h1 class="page-title">New Modpack</h1>
+                        <p class="page-subtitle">Three simple steps to forge your perfect modpack</p>
+                    </div>
+                </header>
+
+                <div class="wizard-container">
+                    <!-- Progress -->
+                    <div class="wizard-progress">
+                        <div class="wp-step active" data-step="1">
+                            <div class="wp-circle">1</div>
+                            <span class="wp-label">Category</span>
+                        </div>
+                        <div class="wp-line"></div>
+                        <div class="wp-step" data-step="2">
+                            <div class="wp-circle">2</div>
+                            <span class="wp-label">Select Mods</span>
+                        </div>
+                        <div class="wp-line"></div>
+                        <div class="wp-step" data-step="3">
+                            <div class="wp-circle">3</div>
+                            <span class="wp-label">Review</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Category -->
+                    <div class="wizard-step active" id="wizStep1">
+                        <div class="wizard-card">
+                            <h2 class="wizard-step-title">What's Your Vibe?</h2>
+                            <p class="wizard-step-desc">Pick a category that matches the experience you want to build</p>
+                            <div class="category-picker" id="catPickGrid"></div>
+                            <div class="wizard-nav">
+                                <div></div>
+                                <button class="btn btn-primary btn-lg" onclick="nextWizardStep()">
+                                    Next - Choose Mods
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Select Mods -->
+                    <div class="wizard-step" id="wizStep2">
+                        <div class="wizard-card">
+                            <h2 class="wizard-step-title">Select Your Mods</h2>
+                            <p class="wizard-step-desc">Pick the mods you want — optimization mods are pre-selected for peak performance</p>
+                            <div id="modSelectionContent"></div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="prevWizardStep()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                                    Back
+                                </button>
+                                <button class="btn btn-primary btn-lg" onclick="nextWizardStep()">
+                                    Next - Review
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review -->
+                    <div class="wizard-step" id="wizStep3">
+                        <div class="wizard-card">
+                            <h2 class="wizard-step-title">Review & Forge</h2>
+                            <p class="wizard-step-desc">Name your modpack and review the mod list before finalizing</p>
+                            <div id="reviewContent"></div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="prevWizardStep()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                                    Back
+                                </button>
+                                <button class="btn btn-success btn-lg" onclick="finalizeModpack()">
+                                    🔨 Forge Modpack
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== MODPACKS ========== -->
+            <section class="page" id="pageModpacks">
+                <header class="page-header">
+                    <div>
+                        <h1 class="page-title">My Modpacks</h1>
+                        <p class="page-subtitle">All your forged modpacks in one place</p>
+                    </div>
+                    <div class="header-actions">
+                        <span class="section-count" id="modpackCount">0</span>
+                    </div>
+                </header>
+                <div class="modpack-list" id="modpackList"></div>
+            </section>
+
+            <!-- ========== SETTINGS ========== -->
+            <section class="page" id="pageSettings">
+                <header class="page-header">
+                    <div>
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">Manage your data</p>
+                    </div>
+                </header>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3 class="setting-title">Data Management</h3>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Export All Modpacks</span>
+                                <span class="setting-desc">Download all your modpacks as a JSON backup</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" onclick="exportAllModpacks()">Export</button>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Import Modpacks</span>
+                                <span class="setting-desc">Load modpacks from a JSON backup file</span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importFile').click()">Import</button>
+                            <input type="file" id="importFile" accept=".json" style="display:none" onchange="importModpacks(event)">
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label danger-label">Clear All Modpacks</span>
+                                <span class="setting-desc">Remove all saved modpacks permanently</span>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="clearAllModpacks()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3 class="setting-title">About</h3>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Modpack Forge</span>
+                                <span class="setting-desc">Version 2.0.0</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Mod Database</span>
+                                <span class="setting-desc" id="aboutModCount">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Categories</span>
+                                <span class="setting-desc" id="aboutCatCount">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Optimization Mods</span>
+                                <span class="setting-desc" id="aboutOptCount">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Modrinth API</span>
+                                <span class="setting-desc" id="aboutApiStatus">Connected — 70,000+ mods available</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div>
+                                <span class="setting-label">Source</span>
+                                <span class="setting-desc"><a href="https://github.com/HollowXtra/modpack-forge" target="_blank" style="color:var(--accent);text-decoration:none;">github.com/HollowXtra/modpack-forge ↗</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- TOAST CONTAINER -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
