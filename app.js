@@ -298,6 +298,51 @@ const CATEGORY_SEARCH_TERMS = {
 let apiSearchResults = [];
 let apiSearchLoading = false;
 
+let MODRINTH_TOTAL_COUNT = null;
+
+async function fetchModrinthTotalCount() {
+    try {
+        const params = new URLSearchParams();
+        params.set('limit', '0');
+        params.set('facets', JSON.stringify([['project_type:mod']]));
+        const res = await fetch(`${MODRINTH_API}/search?${params}`, {
+            headers: { 'User-Agent': 'ModpackForge/1.0 (desktop-app)' }
+        });
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        MODRINTH_TOTAL_COUNT = data.total_hits || 70000;
+    } catch (err) {
+        console.warn('Failed to fetch Modrinth count:', err);
+        MODRINTH_TOTAL_COUNT = 70000;
+    }
+    updateModrinthCountUI();
+}
+
+function formatModrinthCount() {
+    if (!MODRINTH_TOTAL_COUNT) return '70,000+';
+    const n = Number(MODRINTH_TOTAL_COUNT);
+    if (n >= 1000) {
+        const thousands = (n / 1000).toFixed(0);
+        return Number(thousands).toLocaleString() + 'K+';
+    }
+    return n.toLocaleString() + '+';
+}
+
+function updateModrinthCountUI() {
+    const formatted = formatModrinthCount() + ' mods';
+    const apiSearchCount = document.getElementById('apiSearchCount');
+    if (apiSearchCount) apiSearchCount.textContent = formatted + ' available';
+
+    const aboutApiStatus = document.getElementById('aboutApiStatus');
+    if (aboutApiStatus) aboutApiStatus.textContent = 'Connected — ' + formatted + ' available';
+
+    const aboutModCount = document.getElementById('aboutModCount');
+    if (aboutModCount) {
+        const totalCurated = Object.values(MODS_DB).reduce((s, c) => s + c.mods.length, 0) + OPTIMIZATION_MODS.mods.length;
+        aboutModCount.textContent = totalCurated + ' curated mods + ' + formatModrinthCount() + ' on Modrinth';
+    }
+}
+
 async function doModrinthSearch(query) {
     const container = document.getElementById('apiSearchResults');
     if (!container) return;
@@ -325,7 +370,7 @@ async function doModrinthSearch(query) {
 
     apiSearchResults = data.hits;
     renderApiSearchResults(container);
-    document.getElementById('apiSearchCount').textContent = `${data.total_hits || data.hits.length}+ mods on Modrinth`;
+    document.getElementById('apiSearchCount').textContent = `${(data.total_hits || data.hits.length).toLocaleString()}+ mods on Modrinth`;
 }
 
 function renderApiSearchResults(container) {
@@ -672,7 +717,7 @@ function renderModSelection() {
             <div class="mod-section-header">
                 <div>
                     <div class="mod-section-title">🔍 Browse All Mods on Modrinth</div>
-                    <div class="mod-section-subtitle">Search the entire Modrinth catalog — <span id="apiSearchCount">70,000+ mods available</span></div>
+                    <div class="mod-section-subtitle">Search the entire Modrinth catalog — <span id="apiSearchCount">Loading mod count...</span></div>
                 </div>
             </div>
             <div style="display:flex;gap:8px;margin-bottom:12px;">
@@ -879,11 +924,15 @@ function clearAllModpacks() {
 // ====== POPULATE ABOUT SECTION ======
 function populateAboutSection() {
     const totalMods = Object.values(MODS_DB).reduce((s, c) => s + c.mods.length, 0) + OPTIMIZATION_MODS.mods.length;
-    if ($('aboutModCount')) $('aboutModCount').textContent = totalMods + ' curated mods + 70,000+ on Modrinth';
+    // Modrinth count is fetched separately via fetchModrinthTotalCount()
     if ($('aboutCatCount')) $('aboutCatCount').textContent = Object.keys(MODS_DB).length + ' categories';
     if ($('aboutOptCount')) $('aboutOptCount').textContent = OPTIMIZATION_MODS.mods.length + ' optimization mods';
     if ($('sidebarModCount')) $('sidebarModCount').textContent = totalMods;
 }
 
 // ====== INIT ======
-document.addEventListener('DOMContentLoaded', () => { populateAboutSection(); runSplash(); });
+document.addEventListener('DOMContentLoaded', () => {
+    populateAboutSection();
+    fetchModrinthTotalCount();
+    runSplash();
+});
