@@ -882,6 +882,7 @@ function populateAboutSection() {
     if ($('aboutModCount')) $('aboutModCount').textContent = totalMods + ' curated mods + 70,000+ on Modrinth';
     if ($('aboutCatCount')) $('aboutCatCount').textContent = Object.keys(MODS_DB).length + ' categories';
     if ($('aboutOptCount')) $('aboutOptCount').textContent = OPTIMIZATION_MODS.mods.length + ' optimization mods';
+    if ($('sidebarModCount')) $('sidebarModCount').textContent = totalMods;
 }
 
 // ====== INIT ======
